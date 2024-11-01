@@ -131,15 +131,15 @@ jobs:
 
     - name: Run cargo machete
       run: cargo machete
-
-    - name: Check code formatting
-      shell: msys2 {0}
-      run: |
-        cargo fmt -- --check
-        if [ $? -ne 0 ]; then
-          echo "Code is not formatted. Please run 'cargo fmt'."
-          exit 1
-        fi
+   # I guess it's enough if linux does it already, no?
+   # - name: Check code formatting
+   #   shell: msys2 {0}
+   #   run: |
+   #     cargo fmt -- --check
+   #     if [ $? -ne 0 ]; then
+   #       echo "Code is not formatted. Please run 'cargo fmt'."
+   #       exit 1
+   #     fi
 
     - name: Run tests
       shell: msys2 {0}
