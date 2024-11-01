@@ -10,27 +10,31 @@ on:
 
 jobs:
   build-linux:
-  build-windows:
+  msys2-build-test: #cargo test doesn't necessarily build the exec we want
+    strategy:
+      matrix:
+        sys: [MINGW64, UCRT64, CLANG64]
     runs-on: windows-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup MSYS2
       uses: msys2/setup-msys2@v2
       with:
+        msystem: ${{ matrix.sys }}
         update: true
-        install: base-devel
-
-    - name: Install MSYS2 toolchain
-      run: |
-        pacman -Syu --noconfirm
-        pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-toolchain
-        pacboy -S --needed --noconfirm rust:p clang:p llvm:p cc:p
-
-    - name: Build with Cargo
-      run: cargo build
+        install: base-devel git
+        pacboy: >-
+          rust:p
+          cc:p
+          pkgconf:p
+          cmake:p
+          freetype:p
+          python:p
+          fontconfig:p
+    - name: Run cargo 
+      shell: msys2 {0}
+      run: cargo build --release
     runs-on: ubuntu-latest
 
     steps:
