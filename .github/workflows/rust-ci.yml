@@ -96,14 +96,6 @@ jobs:
     needs: [format, lint]
     steps:
     - uses: actions/checkout@v4
-    - name: Setup sccache
-      if: github.event_name != 'release' && github.event_name != 'workflow_dispatch'
-      uses: mozilla-actions/sccache-action@v0.0.6
-    - name: Configure sccache
-      if: github.event_name != 'release' && github.event_name != 'workflow_dispatch'
-      run: |
-        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
-        echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
     - name: Setup MSYS2
       uses: msys2/setup-msys2@v2
       with:
@@ -116,13 +108,21 @@ jobs:
           rust:p
           cc:p
           python:p
-    - name: Run cargo 
+          sccache:p
+    - name: Locate and configure sccache
+      shell: msys2 {0}
+      run: |
+        export SCCACHE_PATH=$(which sccache)
+        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        echo "RUSTC_WRAPPER=${SCCACHE_PATH}" >> $GITHUB_ENV
+    - name: Run cargo
       shell: msys2 {0}
       run: cargo build --release
     - name: Show sccache stats
       if: github.event_name != 'release' && github.event_name != 'workflow_dispatch'
-      shell: bash
-      run: ${SCCACHE_PATH} --show-stats
+      shell: msys2 {0}
+      run: $SCCACHE_PATH --show-stats
     - name: Run tests
       shell: msys2 {0}
       run: cargo test --release
+
