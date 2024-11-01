@@ -109,6 +109,13 @@ jobs:
           cc:p
           python:p
           sccache:p
+    - name: Cache sccache
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/sccache
+        key: ${{ runner.os }}-sccache-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-sccache-
     - name: Locate and configure sccache
       shell: msys2 {0}
       run: |
@@ -125,4 +132,3 @@ jobs:
     - name: Run tests
       shell: msys2 {0}
       run: cargo test --release
-
