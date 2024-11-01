@@ -43,9 +43,10 @@ fn gen_msvcrt_importlib(sh: &Shell, arch: &str, target: &str, check: bool) {
     let ucrt_src = stdx::project_root().join("openvaf").join("target").join("src").join("ucrt.c");
     println!("cargo:rerun-if-changed={}", ucrt_src.display());
     let ucrt_obj = out_dir.join(format!("ucrt_{arch}.obj"));
+    let compiler = env::var("CC").unwrap_or_else(|_| "clang".to_string());
     cmd!(
         sh,
-        "clang -c -o {ucrt_obj} {ucrt_src} --target={target}-pc-windows-msvc"
+        "{compiler} -c -o {ucrt_obj} {ucrt_src} --target={target}-pc-windows-msvc"
     )
     .run()
     .expect("ucrt compilation succeeds");
@@ -72,7 +73,8 @@ fn gen_msys2_importlib(sh: &Shell, arch: &str, _target: &str, check: bool) {
     let ucrt_src = stdx::project_root().join("openvaf").join("target").join("src").join("ucrt.c");
     println!("cargo:rerun-if-changed={}", ucrt_src.display());
     let ucrt_obj = out_dir.join(format!("ucrt_{arch}.obj"));
-    cmd!(sh, "cc -c -o {ucrt_obj} {ucrt_src}").run().expect("ucrt compilation succeeds");
+    let compiler = env::var("CC").unwrap_or_else(|_| "cc".to_string());
+    cmd!(sh, "{compiler} -c -o {ucrt_obj} {ucrt_src}").run().expect("ucrt compilation succeeds");
     libs.push(ucrt_obj);
 
     let libs_ref = &libs;
