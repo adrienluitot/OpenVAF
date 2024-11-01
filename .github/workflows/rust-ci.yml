@@ -27,6 +27,8 @@ jobs:
         pacboy: >-
           clang:p
           llvm18:p
+          rust:p
+          cc:p
     - name: Run cargo 
       shell: msys2 {0}
       run: cargo build --release
