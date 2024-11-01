@@ -25,13 +25,8 @@ jobs:
         update: true
         install: base-devel git
         pacboy: >-
-          rust:p
-          cc:p
-          pkgconf:p
-          cmake:p
-          freetype:p
-          python:p
-          fontconfig:p
+          clang:p
+          llvm18:p
     - name: Run cargo 
       shell: msys2 {0}
       run: cargo build --release
