@@ -16,6 +16,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y clang llvm-18
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
