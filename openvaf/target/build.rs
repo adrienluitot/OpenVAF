@@ -44,12 +44,9 @@ fn gen_msvcrt_importlib(sh: &Shell, arch: &str, target: &str, check: bool) {
     println!("cargo:rerun-if-changed={}", ucrt_src.display());
     let ucrt_obj = out_dir.join(format!("ucrt_{arch}.obj"));
     let compiler = env::var("CC").unwrap_or_else(|_| "clang".to_string());
-    cmd!(
-        sh,
-        "{compiler} -c -o {ucrt_obj} {ucrt_src} --target={target}-pc-windows-msvc"
-    )
-    .run()
-    .expect("ucrt compilation succeeds");
+    cmd!(sh, "{compiler} -c -o {ucrt_obj} {ucrt_src} --target={target}-pc-windows-msvc")
+        .run()
+        .expect("ucrt compilation succeeds");
     libs.push(ucrt_obj);
 
     let libs_ref = &libs;
