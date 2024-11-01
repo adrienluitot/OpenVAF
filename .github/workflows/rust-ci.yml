@@ -9,7 +9,6 @@ on:
       - '**'
 
 jobs:
-  build-linux:
   msys2-build-test: #cargo test doesn't necessarily build the exec we want
     strategy:
       matrix:
@@ -32,20 +31,6 @@ jobs:
     - name: Run cargo 
       shell: msys2 {0}
       run: cargo build --release
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y clang llvm-18
-
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
 
     - name: Install cargo-machete
       run: cargo install cargo-machete
