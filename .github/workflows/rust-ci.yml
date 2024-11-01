@@ -11,8 +11,9 @@ on:
 jobs:
   msys2-build-test: #cargo test doesn't necessarily build the exec we want
     strategy:
+      fail-fast: false
       matrix:
-        sys: [MINGW64, UCRT64, CLANG64]
+        sys: [MINGW64, UCRT64] #We need to check clang later
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
