@@ -43,12 +43,21 @@ fn gen_msvcrt_importlib(sh: &Shell, arch: &str, target: &str, check: bool) {
     let ucrt_src = stdx::project_root().join("openvaf").join("target").join("src").join("ucrt.c");
     println!("cargo:rerun-if-changed={}", ucrt_src.display());
     let ucrt_obj = out_dir.join(format!("ucrt_{arch}.obj"));
-    cmd!(
-        sh,
-        "clang-cl /c /Zl /GS- /clang:--target={target}-pc-windows-msvc /clang:-o{ucrt_obj} {ucrt_src}"
-    )
-    .run()
-    .expect("ucrt compilation succeeds");
+    if cfg!(target_os = "windows") {
+        cmd!(
+            sh,
+            "clang-cl /c /Zl /GS- /clang:--target={target}-pc-windows-msvc /clang:-o{ucrt_obj} {ucrt_src}"
+        )
+        .run()
+        .expect("ucrt compilation succeeds");
+    } else {
+        cmd!(
+            sh,
+            "clang -c -o {ucrt_obj} {ucrt_src}"
+        )
+        .run()
+        .expect("ucrt compilation succeeds");
+    }
     libs.push(ucrt_obj);
 
     let libs_ref = &libs;
