@@ -125,10 +125,10 @@ jobs:
     - name: Run cargo
       shell: msys2 {0}
       run: cargo build --release
-    - name: Show sccache stats
-      if: github.event_name != 'release' && github.event_name != 'workflow_dispatch'
-      shell: msys2 {0}
-      run: $SCCACHE_PATH --show-stats
+    #- name: Show sccache stats
+    #  if: github.event_name != 'release' && github.event_name != 'workflow_dispatch'
+    #  shell: msys2 {0}
+    #  run: $SCCACHE_PATH --show-stats
     - name: Run tests
       shell: msys2 {0}
       run: cargo test --release
