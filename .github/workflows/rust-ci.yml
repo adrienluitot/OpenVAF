@@ -119,8 +119,8 @@ jobs:
     - name: Locate and configure sccache
       shell: msys2 {0}
       run: |
-        export SCCACHE_PATH=$(which sccache)
-        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        # export SCCACHE_PATH=$(which sccache)
+        # echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
         echo "RUSTC_WRAPPER=${SCCACHE_PATH}" >> $GITHUB_ENV
     - name: Run cargo
       shell: msys2 {0}
