@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sys: [MINGW64, UCRT64]
+        sys: [MINGW64, UCRT64, CLANG64]
     runs-on: windows-latest
     needs: [format, lint]
     steps:
