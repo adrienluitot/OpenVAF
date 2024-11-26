@@ -8,17 +8,17 @@ typedef void* _locale_t;
 #endif
 
 #ifdef __clang__
-#include <stdarg.h> // Include standard header for va_list
+#include <stdio.h>  // Include for vsnprintf
+#include <stdarg.h> // Include for va_list
 
-// Provide a stub implementation for Clang
+// Clang-specific implementation of __stdio_common_vsprintf
 int __stdio_common_vsprintf(unsigned __int64 options, char *str, size_t len, const char *format, _locale_t locale, va_list valist) {
-    // Stub function: this will just emulate basic functionality for Clang
-    (void)options;
-    (void)locale;
-    return vsnprintf(str, len, format, valist);
+    (void)options;  // Suppress unused variable warnings
+    (void)locale;   // Suppress unused variable warnings
+    return vsnprintf(str, len, format, valist); // Use standard library vsnprintf
 }
 #else
-// GCC or other compilers
+// GCC and other compilers
 typedef char* va_list;
 int __cdecl __stdio_common_vsprintf(unsigned __int64 options, char *str, size_t len, const char *format, _locale_t locale, va_list valist);
 #endif
