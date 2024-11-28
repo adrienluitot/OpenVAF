@@ -157,7 +157,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install pkg-config with Homebrew
-      run: brew install pkg-config
+      run: brew install pkg-config mingw-w64 sccache
+    - name: sccache setup
+      run: |
+        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        echo "RUSTC_WRAPPER=$(which sccache)" >> $GITHUB_ENV
+    
 
     - name: Build
       run: cargo build --release
