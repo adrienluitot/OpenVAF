@@ -160,7 +160,7 @@ jobs:
       run: brew install pkg-config mingw-w64 sccache
     - name: sccache setup
       run: |
-        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        # echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
         echo "RUSTC_WRAPPER=$(which sccache)" >> $GITHUB_ENV
     
 
