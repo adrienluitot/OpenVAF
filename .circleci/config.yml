@@ -15,6 +15,8 @@ jobs:
             wget https://apt.llvm.org/llvm.sh
             chmod u+x llvm.sh
             sudo ./llvm.sh 18
+            wget https://gist.github.com/junkdog/70231d6953592cd6f27def59fe19e50d -O update-alternatives-clang.sh
+            ./update-alternatives-clang.sh 18 1
       - run: 
           name: Getting Rust
           command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile default --default-toolchain stable --default-host aarch64-unknown-linux-gnu
