@@ -150,14 +150,16 @@ jobs:
           - arch: arm64
             macos: 13
           - arch: x86_64
-            macos: 12
+            macos: 13
     runs-on: macos-${{ matrix.macos }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Install pkg-config with Homebrew
-      run: brew install pkg-config mingw-w64 sccache
+      run: |
+        brew install pkg-config mingw-w64 sccache llvm
+        echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
     - name: sccache setup
       run: |
         # echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
