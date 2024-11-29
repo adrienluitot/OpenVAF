@@ -6,6 +6,9 @@ jobs:
       image: ubuntu-2204:current
       resource_class: arm.medium
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Getting LLVM18
           command: |
