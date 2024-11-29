@@ -16,6 +16,7 @@ jobs:
             chmod u+x llvm.sh
             sudo ./llvm.sh 18
             wget https://gist.github.com/junkdog/70231d6953592cd6f27def59fe19e50d -O update-alternatives-clang.sh
+            chmod +x update-alternatives-clang.sh 
             ./update-alternatives-clang.sh 18 1
       - run: 
           name: Getting Rust
